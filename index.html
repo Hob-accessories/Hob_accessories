@@ -4,201 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hob_accessories</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #fff;
-      color: #111;
-      line-height: 1.6;
-    }
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    header {
-      background: #fff;
-      border-bottom: 1px solid #eee;
-      padding: 20px 0;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-    }
-
-    .hero {
-      background-color: #f7f7f7;
-      padding: 60px 0;
-      text-align: center;
-    }
-
-    .hero h2 {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
-
-    .cta {
-      background-color: #000;
-      color: #fff;
-      padding: 10px 20px;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 4px;
-    }
-
-    .category-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin: 40px 0;
-    }
-
-    .category-buttons a {
-      padding: 15px 30px;
-      background-color: #000;
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 6px;
-    }
-
-    .products {
-      padding: 60px 0;
-    }
-
-    .products h2 {
-      text-align: center;
-      margin-bottom: 40px;
-      font-size: 28px;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-    }
-
-    .product-card {
-      border: 1px solid #eee;
-      border-radius: 6px;
-      padding: 20px;
-      text-align: center;
-      transition: box-shadow 0.3s;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .product-card:hover {
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .product-card img {
-      width: 100%;
-      height: auto;
-      border-radius: 6px;
-      margin-bottom: 15px;
-    }
-
-    .add-to-cart-btn {
-      background-color: #000;
-      color: #fff;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      border-radius: 4px;
-      margin-top: auto;
-    }
-
-    .cart {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #fff;
-      border: 1px solid #eee;
-      padding: 15px;
-      width: 300px;
-      max-height: 400px;
-      overflow-y: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      border-radius: 6px;
-      font-size: 14px;
-      display: none;
-      flex-direction: column;
-    }
-
-    .cart h3 {
-      margin-bottom: 10px;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    .cart-items {
-      flex-grow: 1;
-      overflow-y: auto;
-      margin-bottom: 10px;
-    }
-
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-
-    .cart-item span {
-      flex: 1;
-    }
-
-    .cart-total {
-      font-weight: bold;
-      margin-bottom: 10px;
-      text-align: right;
-    }
-
-    .send-order-btn {
-      background-color: #25D366;
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    footer {
-      background: #111;
-      color: #fff;
-      text-align: center;
-      padding: 20px 0;
-      margin-top: 40px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
@@ -221,119 +27,96 @@
     </div>
   </section>
 
-  <section class="category-buttons">
-    <a href="#master-box">Master Box</a>
-    <a href="#Without-box">Without Box</a>
-    <a href="#travel-size">Travel Size</a>
-  </section>
-
-  <section id="master-box" class="products">
+  <!-- Single products section (perfume categories removed) -->
+  <section id="products" class="products">
     <div class="container">
-      <h2>Master Box Collection</h2>
+      <h2>Necklaces Collection</h2>
       <div class="product-grid">
-        <!-- Existing Product Cards Here -->
-      <div class="product-card" data-name="Versace Eros" data-price="400">
-    <img src="Necklace1.jpg" alt="Drop Necklace 1" />
-    <h3>Drop Necklace</h3>
+
+  <div class="product-card" data-name="Necklace 1" data-price="400">
+    <img src="necklace1.jpg" alt="Necklace 1" />
+    <h3>Necklace 1</h3>
     <p>Price: 130 EGP</p>
     <button class="add-to-cart-btn">Add to Cart</button>
   </div>
 
-  <div class="product-card" data-name="Spicebomb Extreme" data-price="425">
-    <img src="necklace2.jpg" alt="Spicebomb Extreme" />
-    <h3>Spicebomb Extreme</h3>
+  <div class="product-card" data-name="Necklace 2" data-price="425">
+    <img src="necklace2.jpg" alt="Necklace 2" />
+    <h3>Necklace 2</h3>
     <p>Price: 425 EGP</p>
     <button class="add-to-cart-btn">Add to Cart</button>
   </div>
 
-  <div class="product-card" data-name="Stronger with you intensely " data-price="400">
-    <img src="SWY.jpg" alt="Stronger with you intensely " />
-    <h3>Stronger with you intensely </h3>
+  <div class="product-card" data-name="Necklace 3" data-price="400">
+    <img src="necklace3.jpg" alt="Necklace 3" />
+    <h3>Necklace 3</h3>
     <p>Price: 400 EGP</p>
     <button class="add-to-cart-btn">Add to Cart</button>
   </div>
 
-  <div class="product-card" data-name="TomFord Tobacco Vanille" data-price="425">
-    <img src="TFTV.jpg" alt="TomFord Tobacco Vanille" />
-    <h3>TomFord Tobacco Vanille</h3>
+  <div class="product-card" data-name="Necklace 4" data-price="425">
+    <img src="necklace4.jpg" alt="Necklace 4" />
+    <h3>Necklace 4</h3>
     <p>Price: 425 EGP</p>
     <button class="add-to-cart-btn">Add to Cart</button>
   </div>
 
-  <div class="product-card" data-name="Le male le parfum " data-price="400">
-    <img src="Le male.jpg" alt="Le male le parfum " />
-    <h3>Le male le parfum </h3>
+  <div class="product-card" data-name="Necklace 5" data-price="400">
+    <img src="necklace5.jpg" alt="Necklace 5" />
+    <h3>Necklace 5</h3>
     <p>Price: 400 EGP</p>
     <button class="add-to-cart-btn">Add to Cart</button>
   </div>
 
-  <div class="product-card" data-name="Le beau le parfum " data-price="400">
-    <img src="Le beau.jpg" alt="Le beau le parfum " />
-    <h3>Le beau le parfum </h3>
+  <div class="product-card" data-name="Necklace 6" data-price="400">
+    <img src="necklace6.jpg" alt="Necklace 6" />
+    <h3>Necklace 6</h3>
     <p>Price: 400 EGP</p>
     <button class="add-to-cart-btn">Add to Cart</button>
   </div>
 
-  <div class="product-card" data-name="Valentino Uomo Intense " data-price="400">
-    <img src="ValentinoUomo.jpg" alt="Valentino Uomo Intense " />
-    <h3>Valentino Uomo Intense </h3>
+  <div class="product-card" data-name="Necklace 7" data-price="400">
+    <img src="necklace7.jpg" alt="Necklace 7" />
+    <h3>Necklace 7</h3>
     <p>Price: 400 EGP</p>
     <button class="add-to-cart-btn">Add to Cart</button>
   </div>
 
-  <div class="product-card" data-name="Burberry her intense " data-price="400">
-    <img src="Burberry her.jpg" alt="Burberry her " />
-    <h3>Burberry her intense </h3>
+  <div class="product-card" data-name="Necklace 8" data-price="400">
+    <img src="necklace8.jpg" alt="Necklace 8" />
+    <h3>Necklace 8</h3>
     <p>Price: 400 EGP</p>
     <button class="add-to-cart-btn">Add to Cart</button>
   </div>
 
-  <div class="product-card" data-name="Libre " data-price="400">
-    <img src="Libre.jpg" alt="Libre " />
-    <h3>Libre </h3>
+  <div class="product-card" data-name="Necklace 9" data-price="400">
+    <img src="necklace9.jpg" alt="Necklace 9" />
+    <h3>Necklace 9</h3>
     <p>Price: 400 EGP</p>
     <button class="add-to-cart-btn">Add to Cart</button>
   </div>
 
-  <div class="product-card" data-name="Good girl black " data-price="400">
-    <img src="Good girlb.jpg" alt="Good girl black " />
-    <h3>Good girl black </h3>
+  <div class="product-card" data-name="Necklace 10" data-price="400">
+    <img src="necklace10.jpg" alt="Necklace 10" />
+    <h3>Necklace 10</h3>
     <p>Price: 400 EGP</p>
     <button class="add-to-cart-btn">Add to Cart</button>
   </div>
 
-  <div class="product-card" data-name="Very good girl Red" data-price="400">
-    <img src="Very goodgirlr.jpg" alt="Very good girl Red" />
-    <h3>Very good girl Red</h3>
+  <div class="product-card" data-name="Necklace 11" data-price="400">
+    <img src="necklace11.jpg" alt="Necklace 11" />
+    <h3>Necklace 11</h3>
     <p>Price: 400 EGP</p>
     <button class="add-to-cart-btn">Add to Cart</button>
   </div>
 
-  <div class="product-card" data-name="JPG Divine" data-price="400">
-    <img src="Divine.jpg" alt="JPG Divine" />
-    <h3>JPG Divine</h3>
+  <div class="product-card" data-name="Necklace 12" data-price="400">
+    <img src="necklace12.jpg" alt="Necklace 12" />
+    <h3>Necklace 12</h3>
     <p>Price: 400 EGP</p>
     <button class="add-to-cart-btn">Add to Cart</button>
   </div>
-</div>
-        </div>
-    </div>
-  </section>
 
-  <section id="Without-box" class="products">
-    <div class="container">
-      <h2>Without Box</h2>
-      <div class="product-grid">
-        <!-- Add tester necklaces here -->
-      </div>
-    </div>
-  </section>
-
-  <section id="travel-size" class="products">
-    <div class="container">
-      <h2>Travel Size</h2>
-      <div class="product-grid">
-        <!-- Add travel size necklaces here -->
       </div>
     </div>
   </section>
@@ -346,8 +129,7 @@
   </div>
 
   <footer>
-    <p>&copy; 2025 EY Scents. All rights reserved.</p>
-      </div>
+    <p>&copy; 2026 Hob_accessories. All rights reserved.</p>
   </footer>
 
   <script>
@@ -372,7 +154,7 @@
         div.innerHTML = `
           <span>${item.name} (x${item.quantity})</span>
           <span>${item.price * item.quantity} EGP</span>
-          <button onclick="removeItem(${index})" style="background:none;border:none;color:red;cursor:pointer;">x</button>
+          <button onclick="removeItem(${index})" style="background:none;border:none;color:#d9534f;cursor:pointer;">x</button>
         `;
         cartItemsElement.appendChild(div);
       });
@@ -414,7 +196,7 @@
         alert('Your cart is empty!');
         return;
       }
-      const phoneNumber = '+2001212071567'; // رقم الواتساب الخاص بيك يا بوص
+      const phoneNumber = '+2001212071567';
       let message = 'Hello, I want to order the following necklaces:%0A';
       let total = 0;
       cart.forEach(item => {
