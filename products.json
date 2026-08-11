@@ -26,5 +26,12 @@
     "price": "225",
     "category": "bracelet",
     "image": "1786452129351_IMG_4119.jpeg"
+  },
+  {
+    "id": 1786452186440,
+    "name": "Tulip bracelet",
+    "price": "140",
+    "category": "bracelet",
+    "image": "1786452184706_IMG_4124.jpeg"
   }
 ]
