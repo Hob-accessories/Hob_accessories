@@ -1,44 +1,9 @@
 [
   {
-    "id": 1,
-    "name": "Drop Necklace",
-    "price": 130,
-    "category": "necklaces",
-    "image": "necklace1.jpg"
-  },
-  {
-    "id": 2,
-    "name": "Drop Necklace",
-    "price": 130,
-    "category": "necklaces",
-    "image": "necklace2.jpg"
-  },
-  {
-    "id": 3,
-    "name": "Drop Necklace",
-    "price": 130,
-    "category": "necklaces",
-    "image": "necklace3.jpg"
-  },
-  {
-    "id": 4,
-    "name": "Drop Necklace",
-    "price": 130,
-    "category": "necklaces",
-    "image": "necklace4.jpg"
-  },
-  {
-    "id": 5,
-    "name": "Drop Necklace",
-    "price": 130,
-    "category": "necklaces",
-    "image": "necklace5.jpg"
-  },
-  {
-    "id": 6,
-    "name": "Drop Necklace",
-    "price": 130,
-    "category": "necklaces",
-    "image": "necklace6.jpg"
+    "id": 1786451848310,
+    "name": "Set آية الكرسي ",
+    "price": "190",
+    "category": "sets",
+    "image": "1786451846379_IMG_4127.jpeg"
   }
 ]
