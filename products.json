@@ -1,14 +1,93 @@
 [
-  { "id": 1, "name": "Drop Necklace", "price": 130, "category": "necklaces", "image": "necklace1.jpg" },
-  { "id": 2, "name": "Drop Necklace", "price": 130, "category": "necklaces", "image": "necklace2.jpg" },
-  { "id": 3, "name": "Drop Necklace", "price": 130, "category": "necklaces", "image": "necklace3.jpg" },
-  { "id": 4, "name": "Drop Necklace", "price": 130, "category": "necklaces", "image": "necklace4.jpg" },
-  { "id": 5, "name": "Drop Necklace", "price": 130, "category": "necklaces", "image": "necklace5.jpg" },
-  { "id": 6, "name": "Drop Necklace", "price": 130, "category": "necklaces", "image": "necklace6.jpg" },
-  { "id": 7, "name": "Drop Necklace", "price": 130, "category": "hand-chains", "image": "handchain1.jpg" },
-  { "id": 8, "name": "Drop Necklace", "price": 130, "category": "necklaces", "image": "necklace8.jpg" },
-  { "id": 9, "name": "Drop Necklace", "price": 130, "category": "necklaces", "image": "necklace9.jpg" },
-  { "id": 10, "name": "Drop Necklace", "price": 130, "category": "necklaces", "image": "necklace10.jpg" },
-  { "id": 11, "name": "Drop Necklace", "price": 130, "category": "necklaces", "image": "necklace11.jpg" },
-  { "id": 12, "name": "Drop Necklace", "price": 130, "category": "necklaces", "image": "necklace12.jpg" }
+  {
+    "id": 1,
+    "name": "Drop Necklace",
+    "price": 130,
+    "category": "necklaces",
+    "image": "necklace1.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Drop Necklace",
+    "price": 130,
+    "category": "necklaces",
+    "image": "necklace2.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Drop Necklace",
+    "price": 130,
+    "category": "necklaces",
+    "image": "necklace3.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Drop Necklace",
+    "price": 130,
+    "category": "necklaces",
+    "image": "necklace4.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Drop Necklace",
+    "price": 130,
+    "category": "necklaces",
+    "image": "necklace5.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Drop Necklace",
+    "price": 130,
+    "category": "necklaces",
+    "image": "necklace6.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Drop Necklace",
+    "price": 130,
+    "category": "hand-chains",
+    "image": "handchain1.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Drop Necklace",
+    "price": 130,
+    "category": "necklaces",
+    "image": "necklace8.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Drop Necklace",
+    "price": 130,
+    "category": "necklaces",
+    "image": "necklace9.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Drop Necklace",
+    "price": 130,
+    "category": "necklaces",
+    "image": "necklace10.jpg"
+  },
+  {
+    "id": 11,
+    "name": "Drop Necklace",
+    "price": 130,
+    "category": "necklaces",
+    "image": "necklace11.jpg"
+  },
+  {
+    "id": 12,
+    "name": "Drop Necklace",
+    "price": 130,
+    "category": "necklaces",
+    "image": "necklace12.jpg"
+  },
+  {
+    "id": 1786408344497,
+    "name": "Hguvcf",
+    "price": 56888,
+    "category": "necklaces",
+    "image": "1786408342522_1002623856.jpg"
+  }
 ]
