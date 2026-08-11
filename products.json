@@ -47,5 +47,12 @@
     "price": "60",
     "category": "bracelet",
     "image": "1786452288139_IMG_4123.jpeg"
+  },
+  {
+    "id": 1786452358888,
+    "name": "Free size bracelet ",
+    "price": "70",
+    "category": "bracelet",
+    "image": "1786452356424_IMG_4118.jpeg"
   }
 ]
