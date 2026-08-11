@@ -96,5 +96,12 @@
     "price": "1000000000000",
     "category": "necklaces",
     "image": "1786408698918_1002621900.jpg"
+  },
+  {
+    "id": 1786408705455,
+    "name": "Iyad",
+    "price": "1000000000000",
+    "category": "necklaces",
+    "image": "1786408702712_1002621900.jpg"
   }
 ]
