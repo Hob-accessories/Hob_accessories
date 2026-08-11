@@ -1,65 +1,9 @@
 [
   {
-    "id": 1786451848310,
-    "name": "Set آية الكرسي ",
-    "price": "190",
-    "category": "sets",
-    "image": "1786451846379_IMG_4127.jpeg"
-  },
-  {
-    "id": 1786451887230,
-    "name": "Square set ",
-    "price": "220",
-    "category": "sets",
-    "image": "1786451885116_IMG_4131.jpeg"
-  },
-  {
-    "id": 1786452089675,
-    "name": " 6Gold Bangles",
-    "price": "200",
-    "category": "bracelet",
-    "image": "1786452087187_IMG_4120.jpeg"
-  },
-  {
-    "id": 1786452131350,
-    "name": " 6Gold Bangles",
-    "price": "225",
-    "category": "bracelet",
-    "image": "1786452129351_IMG_4119.jpeg"
-  },
-  {
-    "id": 1786452186440,
-    "name": "Tulip bracelet",
-    "price": "140",
-    "category": "bracelet",
-    "image": "1786452184706_IMG_4124.jpeg"
-  },
-  {
-    "id": 1786452230617,
-    "name": "Swan necklace",
-    "price": "120",
+    "id": 1786453006047,
+    "name": "Drop necklace ",
+    "price": "130",
     "category": "necklaces",
-    "image": "1786452228350_IMG_4126.jpeg"
-  },
-  {
-    "id": 1786452290073,
-    "name": "Bracelet آيه الكرسي ",
-    "price": "60",
-    "category": "bracelet",
-    "image": "1786452288139_IMG_4123.jpeg"
-  },
-  {
-    "id": 1786452358888,
-    "name": "Free size bracelet ",
-    "price": "70",
-    "category": "bracelet",
-    "image": "1786452356424_IMG_4118.jpeg"
-  },
-  {
-    "id": 1786452385404,
-    "name": "Square ring ",
-    "price": "55",
-    "category": "rings",
-    "image": "1786452383968_IMG_4128.jpeg"
+    "image": "1786453004566_1002623673.jpg"
   }
 ]
