@@ -61,5 +61,12 @@
     "price": "55",
     "category": "rings",
     "image": "1786452383968_IMG_4128.jpeg"
+  },
+  {
+    "id": 1786454684393,
+    "name": "Drop necklace ",
+    "price": "130",
+    "category": "necklaces",
+    "image": "1786454683025_1002623673.jpg"
   }
 ]
