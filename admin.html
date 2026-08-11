@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة إضافة المنتجات</title>
+  <style>
+    body { font-family: sans-serif; background: #f4f6f8; padding: 20px; display: flex; justify-content: center; }
+    .card { background: #fff; padding: 25px; border-radius: 12px; width: 100%; max-width: 450px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; }
+    button { width: 100%; background: #2ea44f; color: white; padding: 14px; border: none; border-radius: 8px; cursor: pointer; }
+    #status { margin-top: 15px; padding: 10px; text-align: center; display: none; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>إضافة منتج جديد 🛒</h2>
+  <input type="text" id="username" placeholder="اسم المستخدم على GitHub">
+  <input type="text" id="repo" placeholder="اسم الـ Repository">
+  <input type="password" id="token" placeholder="GitHub Personal Access Token">
+  <hr>
+  <input type="text" id="prodName" placeholder="اسم المنتج">
+  <input type="number" id="prodPrice" placeholder="السعر">
+  <select id="prodCategory">
+    <option value="necklaces">Necklaces</option>
+    <option value="hand-chains">Hand Chains</option>
+    <option value="rings">Rings</option>
+    <option value="sets">Sets</option>
+    <option value="bracelet">Bracelets</option>
+  </select>
+  <input type="file" id="prodImage" accept="image/*">
+  <button id="submitBtn" onclick="addProduct()">رفع وإضافة المنتج</button>
+  <div id="status"></div>
+</div>
+
+<script>
+  // استرجاع البيانات المحفوظة
+  document.getElementById('username').value = localStorage.getItem('gh_user') || '';
+  document.getElementById('repo').value = localStorage.getItem('gh_repo') || '';
+  document.getElementById('token').value = localStorage.getItem('gh_token') || '';
+
+  async function addProduct() {
+    const user = document.getElementById('username').value.trim();
+    const repo = document.getElementById('repo').value.trim();
+    const token = document.getElementById('token').value.trim();
+    const name = document.getElementById('prodName').value.trim();
+    const price = document.getElementById('prodPrice').value;
+    const category = document.getElementById('prodCategory').value;
+    const fileInput = document.getElementById('prodImage');
+    
+    // حفظ البيانات
+    localStorage.setItem('gh_user', user);
+    localStorage.setItem('gh_repo', repo);
+    localStorage.setItem('gh_token', token);
+
+    if (!fileInput.files[0]) return alert('يرجى اختيار صورة');
+
+    const file = fileInput.files[0];
+    const imagePath = `images/${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+    const base64Image = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(file); });
+
+    // 1. رفع الصورة
+    await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${imagePath}`, {
+      method: 'PUT',
+      headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: "upload image", content: base64Image.split(',')[1] })
+    });
+
+    // 2. تحديث ملف JSON
+    const getRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/products.json`, { headers: { 'Authorization': `token ${token}` } });
+    const jsonFile = await getRes.json();
+    let products = JSON.parse(decodeURIComponent(escape(atob(jsonFile.content))));
+    
+    products.push({ id: Date.now(), name, price: parseInt(price), category, image: imagePath });
+
+    await fetch(`https://api.github.com/repos/${user}/${repo}/contents/products.json`, {
+      method: 'PUT',
+      headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: "add product", content: btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2)))), sha: jsonFile.sha })
+    });
+
+    document.getElementById('status').style.display = 'block';
+    document.getElementById('status').innerText = 'تمت الإضافة بنجاح! 🎉';
+  }
+</script>
+</body>
+</html>
