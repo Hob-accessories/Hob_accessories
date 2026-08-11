@@ -3,43 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم - Hob Accessories</title>
+    <title>لوحة التحكم المطورة</title>
     <style>
         * { box-sizing: border-box; font-family: sans-serif; }
-        body { background-color: #f4f6f8; padding: 20px; }
-        .card { background: #fff; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        body { background-color: #f4f6f8; padding: 15px; }
+        .card { background: #fff; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; }
-        button { width: 100%; background: #2ea44f; color: white; border: none; padding: 12px; margin-top: 15px; border-radius: 6px; cursor: pointer; }
-        .delete-btn { background: #d73a49; margin-top: 5px; }
-        .product-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; }
+        button { width: 100%; background: #2ea44f; color: white; border: none; padding: 12px; margin-top: 10px; border-radius: 6px; cursor: pointer; }
+        .edit-btn { background: #0969da; }
+        .delete-btn { background: #d73a49; }
+        #preview { max-width: 100px; margin-top: 10px; display: none; border-radius: 8px; }
+        .product-item { background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 5px; }
+        .controls { display: flex; gap: 5px; margin-top: 10px; }
+        #toast { position: fixed; top: 20px; right: 20px; background: #333; color: #fff; padding: 10px 20px; border-radius: 5px; display: none; }
     </style>
 </head>
 <body>
 
+<div id="toast"></div>
+
+<!-- إعدادات GitHub -->
 <div class="card">
-    <h2>إضافة منتج جديد 🛒</h2>
-    <input type="text" id="username" value="hob-accessories">
-    <input type="text" id="repo" value="Hob_accessories">
+    <h2>⚙️ إعدادات الربط</h2>
+    <input type="text" id="username" value="hob-accessories" placeholder="Username">
+    <input type="text" id="repo" value="Hob_accessories" placeholder="Repository Name">
     <input type="password" id="token" placeholder="GitHub Token">
+</div>
+
+<!-- إضافة منتج -->
+<div class="card">
+    <h2>➕ إضافة منتج جديد</h2>
     <input type="text" id="prodName" placeholder="اسم المنتج">
     <input type="number" id="prodPrice" placeholder="السعر">
     <select id="prodCategory">
         <option value="necklaces">Necklaces</option>
         <option value="hand-chains">Hand Chains</option>
         <option value="rings">Rings</option>
+        <option value="sets">Sets</option>
+        <option value="bracelet">Bracelets</option>
     </select>
-    <input type="file" id="prodImage" accept="image/*">
+    <input type="file" id="prodImage" accept="image/*" onchange="previewImage()">
+    <img id="preview" src="#" alt="Preview">
     <button onclick="addProduct()">رفع المنتج</button>
 </div>
 
+<!-- القائمة -->
 <div class="card">
-    <h2>قائمة المنتجات الحالية 📋</h2>
-    <button onclick="loadProductList()">تحديث القائمة</button>
+    <h2>📋 إدارة المنتجات</h2>
+    <input type="text" id="search" placeholder="🔍 ابحث عن منتج..." oninput="renderList()">
+    <select id="filter" onchange="renderList()">
+        <option value="all">كل الأقسام</option>
+        <option value="necklaces">Necklaces</option>
+        <option value="hand-chains">Hand Chains</option>
+        <option value="rings">Rings</option>
+        <option value="sets">Sets</option>
+        <option value="bracelet">Bracelets</option>
+    </select>
+    <button onclick="loadProductList()">🔄 تحديث البيانات</button>
     <div id="productList"></div>
 </div>
 
 <script>
+    let products = [];
     document.getElementById('token').value = localStorage.getItem('gh_token') || '';
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.innerText = msg; t.style.display = 'block';
+        setTimeout(() => t.style.display = 'none', 3000);
+    }
+
+    function previewImage() {
+        const file = document.getElementById('prodImage').files[0];
+        const prev = document.getElementById('preview');
+        if(file) { prev.src = URL.createObjectURL(file); prev.style.display = 'block'; }
+    }
 
     async function getApi(path, options = {}) {
         const user = document.getElementById('username').value.trim();
@@ -47,65 +85,75 @@
         return await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, options);
     }
 
-    async function addProduct() {
-        const token = document.getElementById('token').value.trim();
-        localStorage.setItem('gh_token', token);
-        
-        const file = document.getElementById('prodImage').files[0];
-        const name = document.getElementById('prodName').value;
-        const price = document.getElementById('prodPrice').value;
-        const category = document.getElementById('prodCategory').value;
-        
-        if(!file || !name || !price) return alert("املأ البيانات واختار صورة");
-
-        const imgName = Date.now() + "_" + file.name.replace(/\s+/g, '_');
-        const base64 = await new Promise(r => { let f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(file); });
-
-        // رفع الصورة
-        await getApi(imgName, { method: 'PUT', headers: { 'Authorization': `token ${token}` }, body: JSON.stringify({ message: "add img", content: base64.split(',')[1] }) });
-
-        // تحديث JSON
-        const res = await getApi('products.json', { headers: { 'Authorization': `token ${token}` } });
-        const data = await res.json();
-        const products = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-        products.push({ id: Date.now(), name, price, category, image: imgName });
-
-        await getApi('products.json', { method: 'PUT', headers: { 'Authorization': `token ${token}` }, body: JSON.stringify({ message: "add prod", content: btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2)))), sha: data.sha }) });
-        alert("تمت الإضافة!");
-        loadProductList();
-    }
-
     async function loadProductList() {
         const token = document.getElementById('token').value.trim();
+        localStorage.setItem('gh_token', token);
         const res = await getApi('products.json', { headers: { 'Authorization': `token ${token}` } });
+        if(!res.ok) return showToast("فشل التحميل! تأكد من الـ Token");
         const data = await res.json();
-        const products = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-        
+        products = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+        renderList();
+    }
+
+    function renderList() {
+        const query = document.getElementById('search').value.toLowerCase();
+        const filter = document.getElementById('filter').value;
         const listDiv = document.getElementById('productList');
         listDiv.innerHTML = '';
-        products.forEach(p => {
+        
+        products.filter(p => (filter === 'all' || p.category === filter) && p.name.toLowerCase().includes(query))
+        .forEach(p => {
             listDiv.innerHTML += `
                 <div class="product-item">
-                    <span>${p.name}</span>
-                    <button class="delete-btn" onclick="deleteProduct(${p.id})">حذف</button>
+                    <strong>${p.name}</strong> - ${p.price} EGP (${p.category})
+                    <div class="controls">
+                        <button class="edit-btn" onclick="editProduct(${p.id})">تعديل</button>
+                        <button class="delete-btn" onclick="deleteProduct(${p.id})">حذف</button>
+                    </div>
                 </div>`;
         });
     }
 
-    async function deleteProduct(id) {
-        if(!confirm("متأكد إنك عايز تحذف المنتج ده؟")) return;
+    async function editProduct(id) {
+        const p = products.find(prod => prod.id === id);
+        const newName = prompt("تعديل الاسم:", p.name);
+        const newPrice = prompt("تعديل السعر:", p.price);
+        if(newName && newPrice) {
+            p.name = newName; p.price = newPrice;
+            await saveProducts();
+            renderList();
+        }
+    }
+
+    async function saveProducts() {
         const token = document.getElementById('token').value.trim();
         const res = await getApi('products.json', { headers: { 'Authorization': `token ${token}` } });
         const data = await res.json();
-        let products = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-        
-        products = products.filter(p => p.id !== id);
+        await getApi('products.json', { method: 'PUT', headers: { 'Authorization': `token ${token}` }, body: JSON.stringify({ message: "update", content: btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2)))), sha: data.sha }) });
+        showToast("تم الحفظ بنجاح!");
+    }
 
-        await getApi('products.json', { method: 'PUT', headers: { 'Authorization': `token ${token}` }, body: JSON.stringify({ message: "delete prod", content: btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2)))), sha: data.sha }) });
-        alert("تم الحذف!");
+    async function addProduct() {
+        const token = document.getElementById('token').value.trim();
+        const file = document.getElementById('prodImage').files[0];
+        if(!file) return showToast("يجب اختيار صورة");
+        
+        const imgName = Date.now() + "_" + file.name;
+        const base64 = await new Promise(r => { let f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(file); });
+        
+        await getApi(imgName, { method: 'PUT', headers: { 'Authorization': `token ${token}` }, body: JSON.stringify({ message: "upload img", content: base64.split(',')[1] }) });
+        
+        products.push({ id: Date.now(), name: document.getElementById('prodName').value, price: document.getElementById('prodPrice').value, category: document.getElementById('prodCategory').value, image: imgName });
+        await saveProducts();
         loadProductList();
+    }
+
+    async function deleteProduct(id) {
+        if(!confirm("متأكد؟")) return;
+        products = products.filter(p => p.id !== id);
+        await saveProducts();
+        renderList();
     }
 </script>
 </body>
-    </html>
-    
+</html>
