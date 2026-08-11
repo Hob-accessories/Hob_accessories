@@ -54,5 +54,12 @@
     "price": "70",
     "category": "bracelet",
     "image": "1786452356424_IMG_4118.jpeg"
+  },
+  {
+    "id": 1786452385404,
+    "name": "Square ring ",
+    "price": "55",
+    "category": "rings",
+    "image": "1786452383968_IMG_4128.jpeg"
   }
 ]
