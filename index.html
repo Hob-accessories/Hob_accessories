@@ -51,103 +51,8 @@
         <button class="category-filter" data-filter="bracelet">Bracelets</button>
       </div>
 
-      <div class="product-grid">
-        <div class="product-card" data-name="Drop Necklace" data-price="130" data-category="necklaces">
-          <img src="necklace1.jpg" alt="Drop Necklace" />
-          <h3>Drop Necklace</h3>
-          <p class="price">130 EGP</p>
-          <p class="category">Necklaces</p>
-          <button class="add-to-cart-btn">Add to Cart</button>
-        </div>
-
-        <div class="product-card" data-name="Drop Necklace" data-price="130" data-category="necklaces">
-          <img src="necklace2.jpg" alt="Drop Necklace" />
-          <h3>Drop Necklace</h3>
-          <p class="price">130 EGP</p>
-          <p class="category">Necklaces</p>
-          <button class="add-to-cart-btn">Add to Cart</button>
-        </div>
-
-        <div class="product-card" data-name="Drop Necklace" data-price="130" data-category="necklaces">
-          <img src="necklace3.jpg" alt="Drop Necklace" />
-          <h3>Drop Necklace</h3>
-          <p class="price">130 EGP</p>
-          <p class="category">Necklaces</p>
-          <button class="add-to-cart-btn">Add to Cart</button>
-        </div>
-
-        <div class="product-card data-name="Drop Necklace" data-price="130" data-category="necklaces">
-          <img src="necklace4.jpg" alt="Drop Necklace" />
-          <h3>Drop Necklace</h3>
-          <p class="price">130 EGP</p>
-          <p class="category">Necklaces</p>
-          <button class="add-to-cart-btn">Add to Cart</button>
-        </div>
-
-        <div class="product-card" data-name="Drop Necklace" data-price="130" data-category="necklaces">
-          <img src="necklace5.jpg" alt="Drop Necklace" />
-          <h3>Drop Necklace</h3>
-          <p class="price">130 EGP</p>
-          <p class="category">Necklaces</p>
-          <button class="add-to-cart-btn">Add to Cart</button>
-        </div>
-
-        <div class="product-card" data-name="Drop Necklace" data-price="130" data-category="necklaces">
-          <img src="necklace6.jpg" alt="Drop Necklace" />
-          <h3>Drop Necklace</h3>
-          <p class="price">130 EGP</p>
-          <p class="category">Necklaces</p>
-          <button class="add-to-cart-btn">Add to Cart</button>
-        </div>
-
-        <div class="product-card" data-name="Drop Necklace" data-price="130" data-category="necklaces">
-          <img src="handchain1.jpg" alt="Drop Necklace" />
-          <h3>Drop Necklace</h3>
-          <p class="price">130 EGP</p>
-          <p class="category">Hand Chain</p>
-          <button class="add-to-cart-btn">Add to Cart</button>
-        </div>
-
-        <div class="product-card" data-name="Drop Necklace" data-price="130" data-category="necklaces">
-          <img src="necklace8.jpg" alt="Drop Necklace" />
-          <h3>Drop Necklace</h3>
-          <p class="price">130 EGP</p>
-          <p class="category">Necklaces</p>
-          <button class="add-to-cart-btn">Add to Cart</button>
-        </div>
-
-        <div class="product-card" data-name="Drop Necklace" data-price="130" data-category="necklaces">
-          <img src="necklace9.jpg" alt="Drop Necklace" />
-          <h3>Drop Necklace</h3>
-          <p class="price">130 EGP</p>
-          <p class="category">Necklaces</p>
-          <button class="add-to-cart-btn">Add to Cart</button>
-        </div>
-
-        <div class="product-card" data-name="Drop Necklace" data-price="130" data-category="necklaces">
-          <img src="necklace10.jpg" alt="Drop Necklace" />
-          <h3>Drop Necklace</h3>
-          <p class="price">130 EGP</p>
-          <p class="category">Necklaces</p>
-          <button class="add-to-cart-btn">Add to Cart</button>
-        </div>
-
-        <div class="product-card" data-name="Drop Necklace" data-price="130" data-category="necklaces">
-          <img src="necklace11.jpg" alt="Drop Necklace" />
-          <h3>Drop Necklace</h3>
-          <p class="price">130 EGP</p>
-          <p class="category">Necklaces</p>
-          <button class="add-to-cart-btn">Add to Cart</button>
-        </div>
-
-        <div class="product-card" data-name="Drop Necklace" data-price="130" data-category="necklaces">
-          <img src="necklace12.jpg" alt="Drop Necklace" />
-          <h3>Drop Necklace</h3>
-          <p class="price">130 EGP</p>
-          <p class="category">Necklaces</p>
-          <button class="add-to-cart-btn">Add to Cart</button>
-        </div>
-      </div>
+      <!-- سيتم تحميل كروت المنتجات هنا تلقائياً -->
+      <div class="product-grid" id="product-grid"></div>
     </div>
   </section>
 
@@ -177,6 +82,46 @@
     const cartTotalElement = document.getElementById('cart-total');
     const sendOrderBtn = document.getElementById('send-order');
     const closeCartBtn = document.getElementById('close-cart');
+    const productGrid = document.getElementById('product-grid');
+
+    // تحميل المنتجات من ملف products.json
+    async function loadProducts() {
+      try {
+        const response = await fetch('products.json?v=' + Date.now()); // لتجنب الكاش
+        const products = await response.json();
+        renderProducts(products);
+      } catch (error) {
+        console.error('Error loading products:', error);
+        productGrid.innerHTML = '<p style="text-align:center;">Failed to load products.</p>';
+      }
+    }
+
+    // عرض المنتجات في الصفحة
+    function renderProducts(products) {
+      productGrid.innerHTML = '';
+      products.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.dataset.name = p.name;
+        card.dataset.price = p.price;
+        card.dataset.category = p.category;
+
+        card.innerHTML = `
+          <img src="${p.image}" alt="${p.name}" />
+          <h3>${p.name}</h3>
+          <p class="price">${p.price} EGP</p>
+          <p class="category">${p.category}</p>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        `;
+
+        // ربط زر الإضافة بالسلة
+        card.querySelector('.add-to-cart-btn').addEventListener('click', () => {
+          addItem(p.name, p.price, p.category);
+        });
+
+        productGrid.appendChild(card);
+      });
+    }
 
     function toggleCart(show) {
       cartElement.classList.toggle('visible', show);
@@ -217,7 +162,7 @@
       if (existingItem) {
         existingItem.quantity++;
       } else {
-        cart.push({ name, price, quantity: 1, category });
+        cart.push({ name, price: parseInt(price, 10), quantity: 1, category });
       }
       updateCartUI();
       toggleCart(true);
@@ -239,18 +184,6 @@
       }
     }
 
-    // Add to Cart buttons
-    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-      button.addEventListener('click', () => {
-        const productCard = button.closest('.product-card');
-        // Use displayed product title (h3) to ensure WhatsApp message uses the current visible name
-        const name = (productCard.querySelector('h3')?.textContent || productCard.dataset.name).trim();
-        const price = parseInt(productCard.dataset.price, 10);
-        const category = (productCard.dataset.category || '').trim();
-        addItem(name, price, category);
-      });
-    });
-
     // Category filter functionality
     document.querySelectorAll('.category-filter').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -267,12 +200,10 @@
       });
     });
 
-    // Close cart button
     closeCartBtn.addEventListener('click', () => {
       toggleCart(false);
     });
 
-    // Send order via WhatsApp
     sendOrderBtn.addEventListener('click', () => {
       if (cart.length === 0) {
         alert('Your cart is empty!');
@@ -286,7 +217,6 @@
       cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
         total += itemTotal;
-        // Include category in the WhatsApp message
         message += `• ${item.name} (${item.category})%0A   Quantity: ${item.quantity} × ${item.price} EGP = ${itemTotal} EGP%0A`;
       });
 
@@ -294,11 +224,13 @@
       const url = `https://wa.me/${phoneNumber}?text=${message}`;
       window.open(url, '_blank');
 
-      // Clear cart after opening WhatsApp
       cart.length = 0;
       updateCartUI();
       toggleCart(false);
     });
+
+    // البدء بتحميل المنتجات عند فتح الصفحة
+    loadProducts();
   </script>
 </body>
 </html>
