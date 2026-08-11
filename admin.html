@@ -5,140 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة التحكم - Hob Accessories</title>
     <style>
-        * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
-        body { background-color: #f4f6f8; padding: 20px; margin: 0; display: flex; justify-content: center; }
-        .card { background: #fff; padding: 25px; border-radius: 12px; width: 100%; max-width: 450px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
-        h2 { text-align: center; color: #333; margin-top: 0; }
-        label { font-weight: bold; margin-top: 15px; display: block; color: #555; }
-        input, select { width: 100%; padding: 12px; margin-top: 6px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; }
-        button { width: 100%; background: #2ea44f; color: white; border: none; padding: 14px; margin-top: 25px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        button:disabled { background: #94d3a2; }
+        * { box-sizing: border-box; font-family: sans-serif; }
+        body { background-color: #f4f6f8; padding: 20px; }
+        .card { background: #fff; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; }
+        button { width: 100%; background: #2ea44f; color: white; border: none; padding: 12px; margin-top: 15px; border-radius: 6px; cursor: pointer; }
+        .delete-btn { background: #d73a49; margin-top: 5px; }
+        .product-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <h2>إضافة منتج جديد 🛒</h2>
-    
-    <label>اسم المستخدم (Username):</label>
     <input type="text" id="username" value="hob-accessories">
-
-    <label>اسم الـ Repository:</label>
     <input type="text" id="repo" value="Hob_accessories">
-
-    <label>رمز الوصول (GitHub Token):</label>
-    <input type="password" id="token" placeholder="ghp_xxxxxxxxxxxx">
-
-    <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
-
-    <label>اسم المنتج:</label>
-    <input type="text" id="prodName" placeholder="مثال: Drop Necklace">
-
-    <label>السعر (EGP):</label>
-    <input type="number" id="prodPrice" placeholder="130">
-
-    <label>القسم:</label>
+    <input type="password" id="token" placeholder="GitHub Token">
+    <input type="text" id="prodName" placeholder="اسم المنتج">
+    <input type="number" id="prodPrice" placeholder="السعر">
     <select id="prodCategory">
         <option value="necklaces">Necklaces</option>
         <option value="hand-chains">Hand Chains</option>
         <option value="rings">Rings</option>
-        <option value="sets">Sets</option>
-        <option value="bracelet">Bracelets</option>
     </select>
-
-    <label>صورة المنتج:</label>
     <input type="file" id="prodImage" accept="image/*">
+    <button onclick="addProduct()">رفع المنتج</button>
+</div>
 
-    <button id="btn" onclick="startUpload()">رفع وإضافة المنتج</button>
+<div class="card">
+    <h2>قائمة المنتجات الحالية 📋</h2>
+    <button onclick="loadProductList()">تحديث القائمة</button>
+    <div id="productList"></div>
 </div>
 
 <script>
-    // استرجاع الـ Token لو محفوظ سابقاً
     document.getElementById('token').value = localStorage.getItem('gh_token') || '';
 
-    async function startUpload() {
+    async function getApi(path, options = {}) {
         const user = document.getElementById('username').value.trim();
         const repo = document.getElementById('repo').value.trim();
+        return await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, options);
+    }
+
+    async function addProduct() {
         const token = document.getElementById('token').value.trim();
-        const name = document.getElementById('prodName').value.trim();
+        localStorage.setItem('gh_token', token);
+        
+        const file = document.getElementById('prodImage').files[0];
+        const name = document.getElementById('prodName').value;
         const price = document.getElementById('prodPrice').value;
         const category = document.getElementById('prodCategory').value;
-        const fileInput = document.getElementById('prodImage');
-        const btn = document.getElementById('btn');
+        
+        if(!file || !name || !price) return alert("املأ البيانات واختار صورة");
 
-        if (!user || !repo || !token || !name || !price || !fileInput.files[0]) {
-            return alert("يرجى ملء جميع الحقول واختيار صورة!");
-        }
+        const imgName = Date.now() + "_" + file.name.replace(/\s+/g, '_');
+        const base64 = await new Promise(r => { let f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(file); });
 
-        localStorage.setItem('gh_token', token);
-        btn.disabled = true;
-        btn.innerText = "جاري الرفع...";
+        // رفع الصورة
+        await getApi(imgName, { method: 'PUT', headers: { 'Authorization': `token ${token}` }, body: JSON.stringify({ message: "add img", content: base64.split(',')[1] }) });
 
-        try {
-            const file = fileInput.files[0];
-            const imgName = Date.now() + "_" + file.name.replace(/\s+/g, '_');
-            const base64 = await new Promise(r => { let f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(file); });
-            
-            // 1. رفع الصورة
-            const resImg = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${imgName}`, {
-                method: 'PUT',
-                headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: "Upload product image", content: base64.split(',')[1] })
-            });
-            
-            if(!resImg.ok) {
-                const errData = await resImg.json();
-                throw new Error("فشل رفع الصورة: " + (errData.message || resImg.statusText));
-            }
+        // تحديث JSON
+        const res = await getApi('products.json', { headers: { 'Authorization': `token ${token}` } });
+        const data = await res.json();
+        const products = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+        products.push({ id: Date.now(), name, price, category, image: imgName });
 
-            // 2. قراءة ملف products.json
-            const getRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/products.json`, { 
-                headers: { 'Authorization': `token ${token}` } 
-            });
-            
-            let sha = "";
-            let products = [];
+        await getApi('products.json', { method: 'PUT', headers: { 'Authorization': `token ${token}` }, body: JSON.stringify({ message: "add prod", content: btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2)))), sha: data.sha }) });
+        alert("تمت الإضافة!");
+        loadProductList();
+    }
 
-            if(getRes.ok) {
-                const data = await getRes.json();
-                sha = data.sha;
-                products = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-            }
+    async function loadProductList() {
+        const token = document.getElementById('token').value.trim();
+        const res = await getApi('products.json', { headers: { 'Authorization': `token ${token}` } });
+        const data = await res.json();
+        const products = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+        
+        const listDiv = document.getElementById('productList');
+        listDiv.innerHTML = '';
+        products.forEach(p => {
+            listDiv.innerHTML += `
+                <div class="product-item">
+                    <span>${p.name}</span>
+                    <button class="delete-btn" onclick="deleteProduct(${p.id})">حذف</button>
+                </div>`;
+        });
+    }
 
-            // 3. إضافة المنتج الجديد
-            products.push({ 
-                id: Date.now(), 
-                name: name, 
-                price: parseFloat(price), 
-                category: category, 
-                image: imgName 
-            });
+    async function deleteProduct(id) {
+        if(!confirm("متأكد إنك عايز تحذف المنتج ده؟")) return;
+        const token = document.getElementById('token').value.trim();
+        const res = await getApi('products.json', { headers: { 'Authorization': `token ${token}` } });
+        const data = await res.json();
+        let products = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+        
+        products = products.filter(p => p.id !== id);
 
-            // 4. حفظ ملف products.json
-            const resJson = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/products.json`, {
-                method: 'PUT',
-                headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    message: "Add new product", 
-                    content: btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2)))), 
-                    sha: sha ? sha : undefined 
-                })
-            });
-
-            if(!resJson.ok) throw new Error("فشل تحديث ملف المنتجات");
-            
-            alert("تمت إضافة المنتج بنجاح! 🎉");
-            document.getElementById('prodName').value = '';
-            document.getElementById('prodPrice').value = '';
-            fileInput.value = '';
-
-        } catch (e) {
-            alert("حدث خطأ: " + e.message);
-        } finally {
-            btn.disabled = false;
-            btn.innerText = "رفع وإضافة المنتج";
-        }
+        await getApi('products.json', { method: 'PUT', headers: { 'Authorization': `token ${token}` }, body: JSON.stringify({ message: "delete prod", content: btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2)))), sha: data.sha }) });
+        alert("تم الحذف!");
+        loadProductList();
     }
 </script>
 </body>
-</html>
+    </html>
+    
