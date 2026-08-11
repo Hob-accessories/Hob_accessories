@@ -33,5 +33,12 @@
     "price": "140",
     "category": "bracelet",
     "image": "1786452184706_IMG_4124.jpeg"
+  },
+  {
+    "id": 1786452230617,
+    "name": "Swan necklace",
+    "price": "120",
+    "category": "necklaces",
+    "image": "1786452228350_IMG_4126.jpeg"
   }
 ]
