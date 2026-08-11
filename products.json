@@ -40,5 +40,12 @@
     "price": "120",
     "category": "necklaces",
     "image": "1786452228350_IMG_4126.jpeg"
+  },
+  {
+    "id": 1786452290073,
+    "name": "Bracelet آيه الكرسي ",
+    "price": "60",
+    "category": "bracelet",
+    "image": "1786452288139_IMG_4123.jpeg"
   }
 ]
